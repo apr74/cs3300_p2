@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
+<!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
+
+<head>
+  <title>Academy Award Winners by Genre</title>
+</head>
+
+<style>
+
+h3{
+	font-size: 80;
+	text-align: center;
+}
+
+
+p {
+	text-align: center;
+	text-indent: 50;
+	border:2px solid black;
+    padding:10px;
+    margin:30px;
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 100;
+    margin-right: 100;
+    font-size: 30;
+}
+body {
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #ffffff;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+</style>
+
+<body>
+<h3>Academy Award Winners by Genre</h3>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<div id="LargeGraph" style="width:1200px; height:525px; display:block; margin: auto"></div>
+
+<script>
+
+  var legend = d3.select("#LargeGraph").append("svg").attr("width", 500).attr("height", 400);
+
+  var genreTotals = { "Action" : 0,
+                      "Adventure" : 0, 
+                      "Adult" : 0,
+                      "Animation" : 0,
+                      "Comedy" : 0,
+                      "Crime" : 0,
+                      "Documentary" : 0,
+                      "Drama" : 0,
+                      "Fantasy" : 0,
+                      "Family" : 0, 
+                      "Film-Noir" : 0,
+                      "Horror" : 0,
+                      "Musical" : 0,
+                      "Mystery" : 0,
+                      "Romance" : 0,
+                      "Sci-Fi" : 0,
+                      "Short" : 0,
+                      "Thriller" : 0,
+                      "War" : 0,
+                      "Western" : 0};
+
+
+  d3.csv("genres.csv", function (genres) {
+    d3.csv("academydata.csv", function (academyData) {
+
+      //console.log(academydata[200]);
+      //console.log(genres[200]);
+
+      genreData = {};
+      x = 0;
+      genres.forEach(function (d) {
+        //console.log(d.title);
+        genreData[d.title] = {"genres" : [d.genre], "year" : d.year};
+        x++;
+      });
+
+      //console.log(genreData);
+
+
+      //for (var i = 0; i < academyData.length; i++) {
+      //  console.log(academyData[i]["Nominee"]
+      //  for (var j = 0; j < genreData["\"" + academyData[i]["Nominee"] + "\""]["genres"].length; j++) {
+      //    genreTotals[genreData[academyData[i]["Nominee"]]["genres"][j]]++;
+      //  }
+      //}
+
+      //console.log(genreTotals);
+
+    });
+  });
+</script>
+
+</body>
+</html>
