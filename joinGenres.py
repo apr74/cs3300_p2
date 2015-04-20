@@ -1,5 +1,5 @@
 import csv
-ACADEMY_DATA_CSV = "AcademyData2.csv"
+ACADEMY_DATA_CSV = "AcademyData.csv"
 GENRE_CSV = "genres.csv"
 OUTFILE_NAME = 'genresOfAcademyAwards.csv'
 
@@ -9,7 +9,7 @@ f_out_writer.writerow(['Year','Category','Nominee','Won?','Genre'])
 
 with open(ACADEMY_DATA_CSV, 'rU') as f_academyData, open(GENRE_CSV, 'rU') as f_genre:
 	academyLineNum = 0
-	genresLineNum = 1
+	genresLineNum = 0
 	try:
 		#read academy data and sort by movie name
 		csv_academyData = list(csv.DictReader(f_academyData))

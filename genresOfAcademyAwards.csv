@@ -115,6 +115,9 @@ Year,Category,Nominee,Won?,Genre
 1963,Music (Song),55 Days at Peking,NO,Drama
 1963,Music (Song),55 Days at Peking,NO,History
 1963,Music (Song),55 Days at Peking,NO,War
+1964,Makeup,7 Faces of Dr. Lao,YES,Fantasy
+1964,Makeup,7 Faces of Dr. Lao,YES,Mystery
+1964,Makeup,7 Faces of Dr. Lao,YES,Western
 1964,Visual Effects,7 Faces of Dr. Lao,NO,Fantasy
 1964,Visual Effects,7 Faces of Dr. Lao,NO,Mystery
 1964,Visual Effects,7 Faces of Dr. Lao,NO,Western
@@ -2483,7 +2486,6 @@ Year,Category,Nominee,Won?,Genre
 1947,Writing,Boomerang!,NO,Crime
 1947,Writing,Boomerang!,NO,Drama
 1947,Writing,Boomerang!,NO,Film-Noir
-2006,Writing,Borat Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan,NO,
 1936,Short Film (Live Action),Bored of Education,YES,Comedy
 1936,Short Film (Live Action),Bored of Education,YES,Family
 1936,Short Film (Live Action),Bored of Education,YES,Short
@@ -4116,8 +4118,6 @@ Year,Category,Nominee,Won?,Genre
 1989,Directing,Dead Poets Society,NO,Drama
 1989,Best Picture,Dead Poets Society,NO,Drama
 1989,Writing,Dead Poets Society,YES,Drama
-1991,Documentary (Short Subject),"Deadly Deception: General Electric, Nuclear Weapons and Our Environment",YES,Documentary
-1991,Documentary (Short Subject),"Deadly Deception: General Electric, Nuclear Weapons and Our Environment",YES,Short
 1996,Short Film (Live Action),Dear Diary,YES,Comedy
 1996,Short Film (Live Action),Dear Diary,YES,Short
 1964,Music (Song),Dear Heart,NO,Comedy
@@ -4546,8 +4546,6 @@ Year,Category,Nominee,Won?,Genre
 2000,Art Direction,Dr. Seuss' How the Grinch Stole Christmas,NO,
 2000,Costume Design,Dr. Seuss' How the Grinch Stole Christmas,NO,
 2000,Makeup,Dr. Seuss' How the Grinch Stole Christmas,YES,
-1964,Actor -- Leading Role,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,NO,Comedy
-1964,Actor -- Leading Role,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,NO,War
 1964,Directing,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,NO,Comedy
 1964,Directing,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,NO,War
 1964,Best Picture,Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb,NO,Comedy
@@ -4896,7 +4894,6 @@ Year,Category,Nominee,Won?,Genre
 1974,Documentary (Short Subject),Exploratorium,NO,Short
 1940,Short Film (Live Action),Eyes of the Navy,NO,Documentary
 1940,Short Film (Live Action),Eyes of the Navy,NO,Short
-1987,Documentary (Feature),Eyes on the Prize: America's Civil Rights Years/Bridge to Freedom 1965,NO,
 1999,Documentary (Short Subject),Eyewitness,NO,Documentary
 1999,Documentary (Short Subject),Eyewitness,NO,Short
 1999,Documentary (Short Subject),Eyewitness,NO,Short
@@ -5352,7 +5349,6 @@ Year,Category,Nominee,Won?,Genre
 1991,Actress -- Leading Role,For the Boys,NO,Comedy
 1991,Actress -- Leading Role,For the Boys,NO,Drama
 1991,Actress -- Leading Role,For the Boys,NO,Music
-1952,Foreign Language Film,Forbidden Games - Best Foreign Language Film first released in the United States during 1952.,YES,
 1941,Short Film (Live Action),Forbidden Passage,NO,
 1956,Special Effects (archaic category),Forbidden Planet,NO,Action
 1956,Special Effects (archaic category),Forbidden Planet,NO,Adventure
@@ -5376,7 +5372,6 @@ Year,Category,Nominee,Won?,Genre
 1940,Special Effects (archaic category),Foreign Correspondent,NO,Romance
 1940,Special Effects (archaic category),Foreign Correspondent,NO,Thriller
 1940,Special Effects (archaic category),Foreign Correspondent,NO,War
-1990,Documentary (Feature),Forever Activists: Stories from the Veterans of the Abraham Lincoln Brigade,NO,Documentary
 1947,Music (Scoring),Forever Amber,NO,Adventure
 1947,Music (Scoring),Forever Amber,NO,Drama
 1947,Music (Scoring),Forever Amber,NO,History
@@ -7493,7 +7488,6 @@ Year,Category,Nominee,Won?,Genre
 1997,Actor -- Supporting Role,Jackie Brown,NO,Thriller
 1976,Foreign Language Film,"Jacob, the Liar",NO,
 1975,Actress -- Supporting Role,Jacqueline Susann's Once Is Not Enough,NO,
-1964,Documentary (Feature),Jacques-Yves Cousteau's World without Sun,YES,
 1985,Actor -- Supporting Role,Jagged Edge,NO,Crime
 1985,Actor -- Supporting Role,Jagged Edge,NO,Mystery
 1985,Actor -- Supporting Role,Jagged Edge,NO,Romance
@@ -7666,7 +7660,7 @@ Year,Category,Nominee,Won?,Genre
 1959,Special Effects (archaic category),Journey to the Center of the Earth,NO,Romance
 1959,Special Effects (archaic category),Journey to the Center of the Earth,NO,Sci-Fi
 1973,Documentary (Feature),Journey to the Outer Limits,NO,Documentary
-2005,Foreign Language Film,Joyeux NoÔl,NO,
+2005,Foreign Language Film,Joyeux Noïl,NO,
 1990,Foreign Language Film,Ju Dou,NO,Drama
 1939,Actor -- Supporting Role,Juarez,NO,Biography
 1939,Actor -- Supporting Role,Juarez,NO,Drama
@@ -10602,7 +10596,6 @@ Year,Category,Nominee,Won?,Genre
 2005,Foreign Language Film,Paradise Now,NO,Drama
 2005,Foreign Language Film,Paradise Now,NO,Thriller
 2005,Foreign Language Film,Paradise Now,NO,War
-1946,Documentary (Short Subject),Paramount News Issue #37 (Twentieth Anniversary Issue! 1927.....1947),NO,
 1989,Actress -- Supporting Role,Parenthood,NO,Comedy
 1989,Actress -- Supporting Role,Parenthood,NO,Drama
 1989,Music (Song),Parenthood,NO,Comedy
@@ -10919,6 +10912,9 @@ Year,Category,Nominee,Won?,Genre
 1968,Costume Design,Planet of the Apes,NO,Adventure
 1968,Costume Design,Planet of the Apes,NO,Mystery
 1968,Costume Design,Planet of the Apes,NO,Sci-Fi
+1968,Makeup,Planet of the Apes,YES,Adventure
+1968,Makeup,Planet of the Apes,YES,Mystery
+1968,Makeup,Planet of the Apes,YES,Sci-Fi
 1968,Music (Scoring),Planet of the Apes,NO,Adventure
 1968,Music (Scoring),Planet of the Apes,NO,Mystery
 1968,Music (Scoring),Planet of the Apes,NO,Sci-Fi
@@ -11271,7 +11267,7 @@ Year,Category,Nominee,Won?,Genre
 2010,Actress -- Leading Role,Rabbit Hole,NO,Drama
 2010,Actress -- Leading Role,Rabbit Hole,NO,Drama
 2010,Actress -- Leading Role,Rabbit Hole,NO,Short
-2009,Documentary (Short Subject),Rabbit ö la Berlin,NO,
+2009,Documentary (Short Subject),Rabbit _ la Berlin,NO,
 2008,Actress -- Leading Role,Rachel Getting Married,NO,Drama
 2008,Actress -- Leading Role,Rachel Getting Married,NO,Romance
 1968,Best Picture,"Rachel, Rachel",NO,Drama
@@ -12575,6 +12571,7 @@ Year,Category,Nominee,Won?,Genre
 1989,Music (Song),Shirley Valentine,NO,Comedy
 1989,Music (Song),Shirley Valentine,NO,Drama
 1989,Music (Song),Shirley Valentine,NO,Romance
+1947,Foreign Language Film,Shoe-Shine,YES,
 1947,Writing,Shoe-Shine,NO,
 1987,Short Film (Live Action),Shoeshine,NO,Short
 1993,Directing,Short Cuts,NO,Comedy
@@ -12707,7 +12704,6 @@ Year,Category,Nominee,Won?,Genre
 1952,Music (Scoring),Singin' in the Rain,NO,Musical
 1952,Music (Scoring),Singin' in the Rain,NO,Romance
 1950,Music (Song),Singing Guns,NO,Western
-1941,Art Direction,Sis Hopkins[NOTE: THIS IS NOT AN OFFICIAL NOMINATION. Nomination withdrawn by Republic Studios.],NO,
 1946,Actress -- Leading Role,Sister Kenny,NO,Biography
 1946,Actress -- Leading Role,Sister Kenny,NO,Drama
 2004,Documentary (Short Subject),Sister Rose's Passion,NO,Documentary
@@ -12869,7 +12865,6 @@ Year,Category,Nominee,Won?,Genre
 1944,Music (Scoring),Song of the Open Road,NO,Musical
 1944,Music (Song),Song of the Open Road,NO,Comedy
 1944,Music (Song),Song of the Open Road,NO,Musical
-1944,Art Direction,Song of the Open Road[NOTE: THIS IS NOT AN OFFICIAL NOMINATION. Nomination withdrawn by production company.],NO,
 1960,Music (Scoring),Song without End (The Story of Franz Liszt),YES,
 1984,Music (Scoring),Songwriter,NO,Drama
 1984,Music (Scoring),Songwriter,NO,Music
@@ -13588,6 +13583,7 @@ Year,Category,Nominee,Won?,Genre
 1962,Music (Scoring),Taras Bulba,NO,History
 1962,Music (Scoring),Taras Bulba,NO,Romance
 1962,Music (Scoring),Taras Bulba,NO,War
+1941,Documentary (Feature),Target for Tonight.,YES,
 1999,Music (Song),Tarzan,YES,Adventure
 1999,Music (Song),Tarzan,YES,Animation
 1999,Music (Song),Tarzan,YES,Drama
@@ -16957,7 +16953,6 @@ Year,Category,Nominee,Won?,Genre
 1986,Actress -- Leading Role,The Morning After,NO,Romance
 1986,Actress -- Leading Role,The Morning After,NO,Thriller
 1976,Short Film (Live Action),The Morning Spider,NO,Short
-2009,Documentary (Feature),The Most Dangerous Man in America: Daniel Ellsberg and the Pentagon Papers,NO,Documentary
 2004,Music (Song),The Motorcycle Diaries,YES,
 2004,Writing,The Motorcycle Diaries,NO,
 1999,Sound,The Mummy,NO,Action
@@ -19060,9 +19055,6 @@ Year,Category,Nominee,Won?,Genre
 1946,Writing,To Each His Own,NO,Drama
 1946,Writing,To Each His Own,NO,Romance
 1979,Foreign Language Film,To Forget Venice,NO,
-1954,Foreign Language Film,To Gate of Hell - Best Foreign Language Film first released in the United States during 1954.,YES,
-1968,Makeup,To John Chambers for his outstanding makeup achievement for Planet of the Apes.,YES,
-1995,Animated Feature Film,"To John Lasseter, for his inspired leadership of the Pixar Toy Story team, resulting in the first feature-length computer-animated film.",YES,
 1962,Actor -- Leading Role,To Kill a Mockingbird,YES,Drama
 1962,Actress -- Supporting Role,To Kill a Mockingbird,NO,Drama
 1962,Art Direction,To Kill a Mockingbird,YES,Drama
@@ -19075,19 +19067,6 @@ Year,Category,Nominee,Won?,Genre
 1963,Documentary (Short Subject),To Live Again,NO,Short
 1982,Documentary (Short Subject),To Live or Let Die,NO,Documentary
 1982,Documentary (Short Subject),To Live or Let Die,NO,Short
-1948,Foreign Language Film,To Monsieur Vincent - voted by the Academy Board of Governors as the most outstanding foreign language film released in the United States during 1948.,YES,
-1938,Cinematography,"To Oliver Marsh and Allen Davey for the color cinematography of the Metro-Goldwyn-Mayer production, Sweethearts.",YES,
-1951,Foreign Language Film,To Rashomon - voted by the Board of Governors as the most outstanding foreign language film released in the United States during 1951.,YES,
-1941,Documentary (Feature),"To Rey Scott for his extraordinary achievement in producing Kukan, the film record of China's struggle, including its photography with a 16mm camera under the most difficult and dangerous conditions.",YES,
-1988,Animated Feature Film,To Richard Williams for the animation direction of Who Framed Roger Rabbit.,YES,
-1955,Foreign Language Film,"To Samurai, The Legend of Musashi - Best Foreign Language Film first released in the United States during 1955.",YES,
-1947,Foreign Language Film,"To Shoe-Shine - the high quality of this motion picture, brought to eloquent life in a country scarred by war, is proof to the world that the creative spirit can triumph over adversity.",YES,
-1949,Foreign Language Film,To The Bicycle Thief - voted by the Academy Board of Governors as the most outstanding foreign language film released in the United States during 1949.,YES,
-1941,Documentary (Feature),"To The British Ministry of Information for its vivid and dramatic presentation of the heroism of the RAF in the documentary film, Target for Tonight.",YES,
-1950,Foreign Language Film,To The Walls of Malapaga - voted by the Board of Governors as the most outstanding foreign language film released in the United States in 1950.,YES,
-1936,Cinematography,"To W. Howard Greene and Harold Rosson for the color cinematography of the Selznick International Production, The Garden of Allah.",YES,
-1938,Animated Feature Film,"To Walt Disney for Snow White and the Seven Dwarfs, recognized as a significant screen innovation which has charmed millions and pioneered a great new entertainment field for the motion picture cartoon.",YES,
-1964,Makeup,To William Tuttle for his outstanding make-up achievement for 7 Faces of Dr. Lao.,YES,
 1943,Documentary (Short Subject),To the People of the United States,NO,Documentary
 1943,Documentary (Short Subject),To the People of the United States,NO,Short
 1945,Documentary (Short Subject),To the Shores of Iwo Jima,NO,Documentary
@@ -19292,6 +19271,11 @@ Year,Category,Nominee,Won?,Genre
 1948,Documentary (Short Subject),Toward Independence,YES,Documentary
 1948,Documentary (Short Subject),Toward Independence,YES,Short
 1961,Music (Song),Town without Pity,NO,
+1995,Animated Feature Film,Toy Story,YES,Adventure
+1995,Animated Feature Film,Toy Story,YES,Animation
+1995,Animated Feature Film,Toy Story,YES,Comedy
+1995,Animated Feature Film,Toy Story,YES,Family
+1995,Animated Feature Film,Toy Story,YES,Fantasy
 1995,Music (Scoring),Toy Story,NO,Adventure
 1995,Music (Scoring),Toy Story,NO,Animation
 1995,Music (Scoring),Toy Story,NO,Comedy
@@ -20102,6 +20086,15 @@ Year,Category,Nominee,Won?,Genre
 1958,Music (Scoring),White Wilderness,NO,Documentary
 1958,Music (Scoring),White Wilderness,NO,Family
 1977,Documentary (Feature),Who Are the DeBolts? And Where Did They Get Nineteen Kids?,YES,
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Animation
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Comedy
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Crime
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Family
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Fantasy
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Action
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Adventure
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Animation
+1988,Animated Feature Film,Who Framed Roger Rabbit,YES,Fantasy
 1988,Art Direction,Who Framed Roger Rabbit,NO,Animation
 1988,Art Direction,Who Framed Roger Rabbit,NO,Comedy
 1988,Art Direction,Who Framed Roger Rabbit,NO,Crime
@@ -20156,7 +20149,6 @@ Year,Category,Nominee,Won?,Genre
 1988,Visual Effects,Who Framed Roger Rabbit,YES,Adventure
 1988,Visual Effects,Who Framed Roger Rabbit,YES,Animation
 1988,Visual Effects,Who Framed Roger Rabbit,YES,Fantasy
-1971,Actress -- Supporting Role,Who Is Harry Kellerman and Why Is He Saying Those Terrible Things about Me?,NO,
 1935,Short Film (Animated),Who Killed Cock Robin?,NO,Animation
 1935,Short Film (Animated),Who Killed Cock Robin?,NO,Comedy
 1935,Short Film (Animated),Who Killed Cock Robin?,NO,Family
@@ -20437,6 +20429,7 @@ Year,Category,Nominee,Won?,Genre
 1988,Best Picture,Working Girl,NO,Romance
 1951,Short Film (Live Action),World of Kids,YES,Documentary
 1951,Short Film (Live Action),World of Kids,YES,Short
+1964,Documentary (Feature),World without Sun,YES,
 1956,Actor -- Supporting Role,Written on the Wind,NO,Drama
 1956,Actress -- Supporting Role,Written on the Wind,YES,Drama
 1956,Music (Song),Written on the Wind,NO,Drama
@@ -20463,7 +20456,7 @@ Year,Category,Nominee,Won?,Genre
 1994,Cinematography,Wyatt Earp,NO,Biography
 1994,Cinematography,Wyatt Earp,NO,Romance
 1994,Cinematography,Wyatt Earp,NO,Western
-2002,Writing,Y Tu Mamà Tambi_n,NO,
+2002,Writing,Y Tu Mamˆ Tambi_n,NO,
 1989,Documentary (Short Subject),Yad Vashem: Preserving the Past to Ensure the Future,NO,Documentary
 1989,Documentary (Short Subject),Yad Vashem: Preserving the Past to Ensure the Future,NO,Short
 1942,Actor -- Leading Role,Yankee Doodle Dandy,YES,Biography
@@ -20635,5 +20628,5 @@ Year,Category,Nominee,Won?,Genre
 1958,Special Effects (archaic category),tom thumb,YES,Family
 1958,Special Effects (archaic category),tom thumb,YES,Fantasy
 1958,Special Effects (archaic category),tom thumb,YES,Musical
-2006,Short Film (Live Action),Äramos Pocos (One Too Many),NO,
 1969,Foreign Language Film,Ådalen '31,NO,
+2006,Short Film (Live Action),€ramos Pocos (One Too Many),NO,
