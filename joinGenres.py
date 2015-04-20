@@ -1,5 +1,5 @@
 import csv
-ACADEMY_DATA_CSV = "AcademyData.csv"
+ACADEMY_DATA_CSV = "AcademyData2.csv"
 GENRE_CSV = "genres.csv"
 OUTFILE_NAME = 'genresOfAcademyAwards.csv'
 
@@ -9,7 +9,7 @@ f_out_writer.writerow(['Year','Category','Nominee','Won?','Genre'])
 
 with open(ACADEMY_DATA_CSV, 'rU') as f_academyData, open(GENRE_CSV, 'rU') as f_genre:
 	academyLineNum = 0
-	genresLineNum = 0
+	genresLineNum = 1
 	try:
 		#read academy data and sort by movie name
 		csv_academyData = list(csv.DictReader(f_academyData))
@@ -18,7 +18,6 @@ with open(ACADEMY_DATA_CSV, 'rU') as f_academyData, open(GENRE_CSV, 'rU') as f_g
 		#read genre data and sort by movie name
 		csv_genreData = list(csv.DictReader(f_genre))
 		csv_genreData.sort(key=lambda x:x['title'])
-
 		print "Finished reading and sorting both CSV files; now commencing join"
 
 		#sort merge join
@@ -30,19 +29,21 @@ with open(ACADEMY_DATA_CSV, 'rU') as f_academyData, open(GENRE_CSV, 'rU') as f_g
 				genresLineNum += 1
 				genresLine = csv_genreData[genresLineNum]
 
-			#if we're indeed at the right position
-			if genresLine['title'] == academyLine['Nominee'] and genresLine['year'] == academyLine['Year']:
+			#if we're indeed at the right position (i.e. movie title)
+			if genresLine['title'] == academyLine['Nominee']:
 				genresBackpointer = genresLineNum
-				while genresLine['title'] == academyLine['Nominee'] and genresLine['year'] == academyLine['Year']:
-					#loop through all the genres
-					f_out_writer.writerow([academyLine['Year'], academyLine['Category'], academyLine['Nominee'], academyLine['Won?'], genresLine['genre']])
+				while genresLine['title'] == academyLine['Nominee']:
+					#loop through all the movies of this title, collecting the genres (if it's the right year)
+					if genresLine['year'] == academyLine['Year']:
+						f_out_writer.writerow([academyLine['Year'], academyLine['Category'], academyLine['Nominee'], academyLine['Won?'], genresLine['genre']])
+					
 					genresLineNum += 1
 					genresLine = csv_genreData[genresLineNum]
-				genresLineNum = genresBackpointer #reset line number in case the next award is for the same movie
+				genresLineNum = genresBackpointer #reset line number in case the next award is for a movie of the same title
 			else:
 				f_out_writer.writerow([academyLine['Year'], academyLine['Category'], academyLine['Nominee'],academyLine['Won?'], None])
 				#if not found in the genres database, print it anyway with no genre
-			if(academyLineNum % 1000):
+			if not (academyLineNum % 500):
 				#periodically print stuff out for monitoring purposes
 				print academyLine['Year'] + "," + academyLine['Category'] + "," + academyLine['Nominee']
 			academyLineNum += 1
