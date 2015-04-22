@@ -12,7 +12,7 @@
 <style>
 
 h3{
-	font-size: 80;
+	font-size: 36px;
 	text-align: center;
 }
 
@@ -36,12 +36,31 @@ body {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #ffffff;
+  stroke: #330000;
   shape-rendering: crispEdges;
 }
 
 .dot {
   stroke: #000;
+}
+
+svg {
+  border: 1px solid black;
+  display: block;
+  margin: auto;
+  background-color: white;
+}
+
+text {
+  text-anchor: middle;
+}
+
+#LargeGraph {
+  display: block;
+  margin: auto;
+  padding: 1em;
+  border: 1px solid #666666;
+  background-color: #333333;
 }
 </style>
 
@@ -49,16 +68,26 @@ body {
 <h3>Academy Award Winners by Genre</h3>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
-<div id="LargeGraph" style="width:1200px; height:525px; display:block; margin: auto"></div>
+<div id="LargeGraph"></div>
 
 <script>
+  var WIDTH = 1200;
+  var HEIGHT = 600;
+  var EDGES = {LEFT: 125, RIGHT: 1100, TOP: 50, BOTTOM: 500};
+  var AXIS_LABEL_LEFT = 30;
+  var AXIS_LABEL_BOTTOM = 540;
+  var BAR_HEIGHT = 14;
 
-  var legend = d3.select("#LargeGraph").append("svg").attr("width", 500).attr("height", 400);
 
+  var largeGraph = d3.select("#LargeGraph").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
+  //var legend = largeGraph.append("rect").attr("width", 300).attr("height", 200);
+
+  var xScale, yScale;
   var genreTotals = { "Action" : 0,
                       "Adventure" : 0, 
                       "Adult" : 0,
                       "Animation" : 0,
+                      "Biography" : 0,
                       "Comedy" : 0,
                       "Crime" : 0,
                       "Documentary" : 0,
@@ -66,44 +95,63 @@ body {
                       "Fantasy" : 0,
                       "Family" : 0, 
                       "Film-Noir" : 0,
+                      "History" : 0,
                       "Horror" : 0,
+                      "Music" : 0,
                       "Musical" : 0,
                       "Mystery" : 0,
                       "Romance" : 0,
                       "Sci-Fi" : 0,
                       "Short" : 0,
+                      "Sport" : 0,
                       "Thriller" : 0,
                       "War" : 0,
-                      "Western" : 0};
+                      "Western" : 0,
 
+                      "Unknown" : 0};
+  //ensure that Unknown is at the end
+  var genres = Object.keys(genreTotals);
+  var unknownIndex = genres.indexOf("Unknown");
+  genres.splice(unknownIndex, 1);
+  genres.push("Unknown");
 
-  d3.csv("genres.csv", function (genres) {
-    d3.csv("academydata.csv", function (academyData) {
+  d3.csv("genresOfAcademyAwards.csv", function (academyData) {
 
-      //console.log(academydata[200]);
-      //console.log(genres[200]);
-
-      genreData = {};
-      x = 0;
-      genres.forEach(function (d) {
-        //console.log(d.title);
-        genreData[d.title] = {"genres" : [d.genre], "year" : d.year};
-        x++;
-      });
-
-      //console.log(genreData);
-
-
-      //for (var i = 0; i < academyData.length; i++) {
-      //  console.log(academyData[i]["Nominee"]
-      //  for (var j = 0; j < genreData["\"" + academyData[i]["Nominee"] + "\""]["genres"].length; j++) {
-      //    genreTotals[genreData[academyData[i]["Nominee"]]["genres"][j]]++;
-      //  }
-      //}
-
-      //console.log(genreTotals);
-
+    //get genre totals
+    academyData.forEach(function(d) {
+      if (d.Genre in genreTotals) {
+        genreTotals[d.Genre]++;
+      } else {
+        genreTotals["Unknown"]++;
+      }
     });
+
+    //get max and set x and y scales
+    var maxData = 0;
+    for (var genre in genreTotals) {
+      if (genreTotals.hasOwnProperty(genre) && genreTotals[genre] > maxData) {
+        maxData = genreTotals[genre];
+      }
+    }
+    xScale = d3.scale.linear().domain([0,maxData]).range([EDGES.LEFT, EDGES.RIGHT]);
+    yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
+
+    //draw axes
+    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
+    var yAxis = d3.svg.axis().scale(yScale).orient("left");
+    largeGraph.append("g").attr("class", "axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
+    largeGraph.append("text").attr("x", WIDTH / 2).attr("y", AXIS_LABEL_BOTTOM).text("Number of Awards Won");
+    largeGraph.append("g").attr("class", "axis").attr("transform", "translate(" + EDGES.LEFT + ", 0)").call(yAxis);
+    largeGraph.append("text").attr("transform", "rotate(-90, " + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")" +
+      "translate(" + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")").text("Genre");
+
+    //draw data bars
+    var bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
+      .attr("x", function(d){return xScale(0);})
+      .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
+      .attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);})
+      .attr("height", BAR_HEIGHT)
+      .attr("class", function(d){return genreTotals[d];});
   });
 </script>
 
