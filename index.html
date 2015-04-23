@@ -98,30 +98,13 @@ text {
 
   var xScale, yScale, xAxis, yAxis;
   var bars;
-  var genreTotals = { "Action" : 0,
-                      "Adventure" : 0,
-                      "Animation" : 0,
-                      "Biography" : 0,
-                      "Comedy" : 0,
-                      "Crime" : 0,
-                      "Documentary" : 0,
-                      "Drama" : 0,
-                      "Fantasy" : 0,
-                      "Family" : 0, 
-                      "Film-Noir" : 0,
-                      "History" : 0,
-                      "Horror" : 0,
-                      "Music" : 0,
-                      "Musical" : 0,
-                      "Mystery" : 0,
-                      "Romance" : 0,
-                      "Sci-Fi" : 0,
-                      "Short" : 0,
-                      "Sport" : 0,
-                      "Thriller" : 0,
-                      "War" : 0,
-                      "Western" : 0,
-                      "Unknown" : 0};
+  var genreTotals = {};
+  genreReset();
+  //ensure that Unknown is at the end
+  var genres = Object.keys(genreTotals);
+  var unknownIndex = genres.indexOf("Unknown");
+  genres.splice(unknownIndex, 1);
+  genres.push("Unknown");
 
   function genreReset() {
     genreTotals = { "Action" : 0,
@@ -149,13 +132,6 @@ text {
                     "Western" : 0,
                     "Unknown" : 0};
   }
-
-  //ensure that Unknown is at the end
-  var genres = Object.keys(genreTotals);
-  var unknownIndex = genres.indexOf("Unknown");
-  genres.splice(unknownIndex, 1);
-  genres.push("Unknown");
-
 
   var brush, brushg;
   var sliderMargin = {top: 50, right: 50, bottom: 50, left: 50},
@@ -200,9 +176,12 @@ text {
   function filterAwards (yearStart, yearEnd) {
     genreReset()
     data.forEach(function(d) {
-    //debugger;
-      if (d.Genre in genreTotals && d.Year >= yearStart && d.Year <= yearEnd) {
-        genreTotals[d.Genre]++;
+      if (d.Year >= yearStart && d.Year <= yearEnd) {
+        if (d.Genre in genreTotals) {
+          genreTotals[d.Genre]++;
+        } else {
+          genreTotals["Unknown"]++;
+        }
       }
     });
 
@@ -214,26 +193,13 @@ text {
       }
     }
     xScale = d3.scale.linear().domain([0,maxData]).range([EDGES.LEFT, EDGES.RIGHT]);
-    yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
 
     //draw axes
     xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    largeGraph.selectAll("g.x.axis").call(xAxis);
 
-
-    largeGraph.selectAll("g.y.axis")
-            .call(yAxis)
-
-    largeGraph.selectAll("g.x.axis")
-            .call(xAxis);
-
-    //draw data bars
-    //bars.remove();
-    bars.attr("x", function(d){return xScale(0);})
-      .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
-      .attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);})
-      .attr("height", BAR_HEIGHT)
-      .attr("class", function(d){return genreTotals[d];});
+    //update data bars
+    bars.attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);});
   }
 
 
@@ -242,42 +208,24 @@ text {
   d3.csv("genresOfAcademyAwards.csv", function (academyData) {
     data = academyData;
 
-    //get genre totals
-    academyData.forEach(function(d) {
-      if (d.Genre in genreTotals) {
-        genreTotals[d.Genre]++;
-      } else {
-        genreTotals["Unknown"]++;
-      }
-    });
-
-    //get max and set x and y scales
-    var maxData = 0;
-    for (var genre in genreTotals) {
-      if (genreTotals.hasOwnProperty(genre) && genreTotals[genre] > maxData) {
-        maxData = genreTotals[genre];
-      }
-    }
-    xScale = d3.scale.linear().domain([0,maxData]).range([EDGES.LEFT, EDGES.RIGHT]);
+    //create bars and y-axis
     yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    largeGraph.selectAll("g.y.axis").call(yAxis);
+    bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
+      .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
+      .attr("height", BAR_HEIGHT)
+      .attr("x", EDGES.LEFT);
+
+    //initially draw bars, assuming default range is the whole timeline
+    filterAwards(1934, 2010); 
 
     //draw axes
-    xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
     largeGraph.append("g").attr("class", "x axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
     largeGraph.append("text").attr("x", WIDTH / 2).attr("y", AXIS_LABEL_BOTTOM).text("Number of Awards Won");
     largeGraph.append("g").attr("class", "axis").attr("transform", "translate(" + EDGES.LEFT + ", 0)").call(yAxis);
     largeGraph.append("text").attr("transform", "rotate(-90, " + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")" +
       "translate(" + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")").text("Genre");
-
-    //draw data bars
-    bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
-      .attr("x", function(d){return xScale(0);})
-      .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
-      .attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);})
-      .attr("height", BAR_HEIGHT)
-      .attr("class", function(d){return genreTotals[d];});
-
 
     var x = d3.scale.linear()
         .domain([1934, 2010])
