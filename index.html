@@ -2,6 +2,8 @@
 <html>
 <meta charset="utf-8">
 
+
+
 <!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
 <!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
 
@@ -33,10 +35,22 @@ p {
 body {
 }
 
-.axis path,
-.axis line {
+
+.resize path {
+  fill: #666;
+  fill-opacity: .8;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.axis path, .axis line {
   fill: none;
-  stroke: #330000;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  fill-opacity: .125;
   shape-rendering: crispEdges;
 }
 
@@ -49,6 +63,7 @@ svg {
   display: block;
   margin: auto;
   background-color: white;
+  font: 10px sans-serif;
 }
 
 text {
@@ -72,20 +87,19 @@ text {
 
 <script>
   var WIDTH = 1200;
-  var HEIGHT = 600;
+  var HEIGHT = 800;
   var EDGES = {LEFT: 125, RIGHT: 1100, TOP: 50, BOTTOM: 500};
   var AXIS_LABEL_LEFT = 30;
   var AXIS_LABEL_BOTTOM = 540;
   var BAR_HEIGHT = 14;
 
-
   var largeGraph = d3.select("#LargeGraph").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
   //var legend = largeGraph.append("rect").attr("width", 300).attr("height", 200);
 
-  var xScale, yScale;
+  var xScale, yScale, xAxis, yAxis;
+  var bars;
   var genreTotals = { "Action" : 0,
-                      "Adventure" : 0, 
-                      "Adult" : 0,
+                      "Adventure" : 0,
                       "Animation" : 0,
                       "Biography" : 0,
                       "Comedy" : 0,
@@ -107,15 +121,126 @@ text {
                       "Thriller" : 0,
                       "War" : 0,
                       "Western" : 0,
-
                       "Unknown" : 0};
+
+  function genreReset() {
+    genreTotals = { "Action" : 0,
+                    "Adventure" : 0,
+                    "Animation" : 0,
+                    "Biography" : 0,
+                    "Comedy" : 0,
+                    "Crime" : 0,
+                    "Documentary" : 0,
+                    "Drama" : 0,
+                    "Fantasy" : 0,
+                    "Family" : 0, 
+                    "Film-Noir" : 0,
+                    "History" : 0,
+                    "Horror" : 0,
+                    "Music" : 0,
+                    "Musical" : 0,
+                    "Mystery" : 0,
+                    "Romance" : 0,
+                    "Sci-Fi" : 0,
+                    "Short" : 0,
+                    "Sport" : 0,
+                    "Thriller" : 0,
+                    "War" : 0,
+                    "Western" : 0,
+                    "Unknown" : 0};
+  }
+
   //ensure that Unknown is at the end
   var genres = Object.keys(genreTotals);
   var unknownIndex = genres.indexOf("Unknown");
   genres.splice(unknownIndex, 1);
   genres.push("Unknown");
 
+
+  var brush, brushg;
+  var sliderMargin = {top: 50, right: 50, bottom: 50, left: 50},
+    sliderWidth = WIDTH - sliderMargin.left - sliderMargin.right,
+    sliderHeight = HEIGHT - sliderMargin.top - sliderMargin.bottom;
+
+
+  function brushmove() {
+    console.log("brushmove called");
+
+    var extent = brush.extent();
+    var diff = extent[1] - extent[0];
+
+    //force span of at least 1 year
+    if(diff < 1) {
+      extent[1] = extent[0] + 1;
+    }
+
+    brush.extent(extent)(d3.select(this));
+  }
+
+  function brushend() {
+    console.log("brushend called");
+
+    var extent = brush.extent();
+    var diff = extent[1] - extent[0];
+
+    //snap to full years
+    extent[0] = Math.round(extent[0])
+    extent[1] = Math.round(extent[1])
+
+    //force span of at least 1 year
+    if(diff < 1) {
+      extent[1] = extent[0] + 1;
+    }
+
+    filterAwards(extent[0], extent[1]);
+
+    brush.extent(extent)(d3.select(this));
+  }
+
+  function filterAwards (yearStart, yearEnd) {
+    genreReset()
+    data.forEach(function(d) {
+    //debugger;
+      if (d.Genre in genreTotals && d.Year >= yearStart && d.Year <= yearEnd) {
+        genreTotals[d.Genre]++;
+      }
+    });
+
+    //get max and set x and y scales
+    var maxData = 0;
+    for (var genre in genreTotals) {
+      if (genreTotals.hasOwnProperty(genre) && genreTotals[genre] > maxData) {
+        maxData = genreTotals[genre];
+      }
+    }
+    xScale = d3.scale.linear().domain([0,maxData]).range([EDGES.LEFT, EDGES.RIGHT]);
+    yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
+
+    //draw axes
+    xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+
+    largeGraph.selectAll("g.y.axis")
+            .call(yAxis)
+
+    largeGraph.selectAll("g.x.axis")
+            .call(xAxis);
+
+    //draw data bars
+    //bars.remove();
+    bars.attr("x", function(d){return xScale(0);})
+      .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
+      .attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);})
+      .attr("height", BAR_HEIGHT)
+      .attr("class", function(d){return genreTotals[d];});
+  }
+
+
+  var data;
+
   d3.csv("genresOfAcademyAwards.csv", function (academyData) {
+    data = academyData;
 
     //get genre totals
     academyData.forEach(function(d) {
@@ -137,21 +262,54 @@ text {
     yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
 
     //draw axes
-    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
-    var yAxis = d3.svg.axis().scale(yScale).orient("left");
-    largeGraph.append("g").attr("class", "axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
+    xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    largeGraph.append("g").attr("class", "x axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
     largeGraph.append("text").attr("x", WIDTH / 2).attr("y", AXIS_LABEL_BOTTOM).text("Number of Awards Won");
     largeGraph.append("g").attr("class", "axis").attr("transform", "translate(" + EDGES.LEFT + ", 0)").call(yAxis);
     largeGraph.append("text").attr("transform", "rotate(-90, " + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")" +
       "translate(" + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")").text("Genre");
 
     //draw data bars
-    var bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
+    bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
       .attr("x", function(d){return xScale(0);})
       .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
       .attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);})
       .attr("height", BAR_HEIGHT)
       .attr("class", function(d){return genreTotals[d];});
+
+
+    var x = d3.scale.linear()
+        .domain([1934, 2010])
+        .range([0, sliderWidth]);
+
+        yearTicks = [1934, 1940]
+        while (yearTicks[yearTicks.length-1]<2010) {
+          yearTicks.push(yearTicks[yearTicks.length-1]+5);
+        }
+
+    var sliderAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(yearTicks).tickFormat(d3.format(".0f"))
+
+    brush = d3.svg.brush()
+        .x(x)
+        .extent([1934, 2010])
+        .on("brush", brushmove)
+        .on("brushend", brushend);
+
+    largeGraph.append("g")
+        .attr("class", "slider axis")
+        .attr("transform", "translate(" + sliderMargin.left + "," + sliderHeight + ")")
+        .call(sliderAxis);
+
+    brushg = largeGraph.append("g")
+        .attr("class", "brush")
+        .call(brush);
+
+    brushg.selectAll("rect")
+        .attr("height", 100)
+        .attr("transform", "translate(" + sliderMargin.left + "," + 600 + ")");
+
+
   });
 </script>
 
