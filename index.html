@@ -9,22 +9,32 @@
 
 <head>
   <title>Academy Award Winners by Genre</title>
+
+  <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 </head>
 
 <style>
-
+  body {
+  	background-color: #E9E0D6;
+  	font-family: 'EB Garamond', serif;
+  	color: #354458;
+  }
   h3{
-  	font-size: 36px;
+  	font-size: 38px;
   	text-align: center;
+  	font-family: 'EB Garamond', serif;
+  	color: #354458;
   }
 
   .axis_label {
-    font-size: 14px;
+    font-size: 18px;
     text-anchor: middle;
+    font-family: 'EB Garamond', serif;
+    font-weight:bold;
   }
 
   .resize path {
-    fill: #666;
+    fill: #E9E0D6;
     fill-opacity: .8;
     stroke: #000;
     stroke-width: 1.5px;
@@ -35,9 +45,11 @@
     stroke: #000;
     shape-rendering: crispEdges;
   }
-
+  rect {
+  	fill: #C91B26;
+  }
   .brush .extent {
-    fill: #8888aa;
+    fill: #354458;
     shape-rendering: crispEdges;
   }
 
@@ -46,11 +58,12 @@
   }
 
   svg {
-    border: 1px solid black;
+    border: 1px solid #354458;
     display: block;
     margin: auto;
-    background-color: white;
-    font: 12px sans-serif;
+    background-color: #E9E0D6;
+    /*font: 12px sans-serif;*/
+    font-size: 15px;
   }
 
   svg text{
@@ -69,7 +82,6 @@
 
   #year_label {
     font-size: 20px;
-    font-family: Arial, sans-serif;
     font-weight: bold;
     text-anchor: middle;
   }
@@ -81,22 +93,27 @@
   }
 
   #dataBox_title {
-    font-size: 17px;
+    font-size: 20px;
     font-family: Arial, sans-serif;
     text-align: center;
     text-decoration: underline;
+    color: #C91B26;
   }
+
+  ul>li {
+  	color: #C91B26;
+  	}
 
   #LargeGraph {
     display: inline-block;
-    border: 1px solid #666666;
+    border: 1px solid #354458;
     background-color: #333333;
   }
 
   #DataBox {
     display: inline-block;
-    border: 1px solid #666666;
-    background-color: #ffffee;
+    border: 2px solid #354458;
+    background-color: #E9E0D6;
     margin-left: 1em;
     overflow: auto;
     text-align: left;
@@ -111,8 +128,8 @@
     margin-left:auto;
     margin-right:auto;
     padding: 1em;
-    border: 1px solid #666666;
-    background-color: #330000;
+    border: 2px solid #354458;
+    background-color: #354458;
   }
 </style>
 
@@ -156,7 +173,7 @@
      .style("height", HEIGHT + "px");
   var dataTitle = dataBox.append("h3")
       .attr("id", "dataBox_title")
-      .text("Click on a data bar");
+      .text("Click on a Data Bar");
   var dataList = dataBox.append("ul");
 
   genreReset();
