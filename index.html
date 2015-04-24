@@ -13,98 +13,234 @@
 
 <style>
 
-h3{
-	font-size: 36px;
-	text-align: center;
-}
+  h3{
+  	font-size: 36px;
+  	text-align: center;
+  }
 
+  .axis_label {
+    font-size: 14px;
+    text-anchor: middle;
+  }
 
-p {
-	text-align: center;
-	text-indent: 50;
-	border:2px solid black;
-    padding:10px;
-    margin:30px;
+  .resize path {
+    fill: #666;
+    fill-opacity: .8;
+    stroke: #000;
+    stroke-width: 1.5px;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .brush .extent {
+    fill: #8888aa;
+    shape-rendering: crispEdges;
+  }
+
+  .dot {
+    stroke: #000;
+  }
+
+  svg {
+    border: 1px solid black;
     display: block;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    margin-left: 100;
-    margin-right: 100;
-    font-size: 30;
-}
-body {
-}
+    margin: auto;
+    background-color: white;
+    font: 12px sans-serif;
+  }
 
+  svg text{
+    /*unselectable text http://stackoverflow.com/questions/69430/is-there-a-way-to-make-text-unselectable-on-an-html-page*/
+    cursor: default;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-.resize path {
-  fill: #666;
-  fill-opacity: .8;
-  stroke: #000;
-  stroke-width: 1.5px;
-}
+  rect {
+    cursor: pointer;
+  }
 
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
+  #year_label {
+    font-size: 20px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-anchor: middle;
+  }
 
-.brush .extent {
-  fill-opacity: .125;
-  shape-rendering: crispEdges;
-}
+  #dataBox {
+    stroke: black;
+    stroke-width: 1px;
+    fill: #eeeeee;
+  }
 
-.dot {
-  stroke: #000;
-}
+  #dataBox_title {
+    font-size: 17px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    text-decoration: underline;
+  }
 
-svg {
-  border: 1px solid black;
-  display: block;
-  margin: auto;
-  background-color: white;
-  font: 10px sans-serif;
-}
+  #LargeGraph {
+    display: inline-block;
+    border: 1px solid #666666;
+    background-color: #333333;
+  }
 
-text {
-  text-anchor: middle;
-}
+  #DataBox {
+    display: inline-block;
+    border: 1px solid #666666;
+    background-color: #ffffee;
+    margin-left: 1em;
+    overflow: auto;
+    text-align: left;
+  }
 
-#LargeGraph {
-  display: block;
-  margin: auto;
-  padding: 1em;
-  border: 1px solid #666666;
-  background-color: #333333;
-}
+  #wrapper {
+    text-align: center;
+  }
+
+  #main {
+    display: inline-block;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 1em;
+    border: 1px solid #666666;
+    background-color: #330000;
+  }
 </style>
 
 <body>
 <h3>Academy Award Winners by Genre</h3>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
-<div id="LargeGraph"></div>
+<div id="wrapper">
+<div id="main">
+  <div id="LargeGraph"></div>
+  <div id="DataBox"></div>
+</div>
+</div>
 
 <script>
-  var WIDTH = 1200;
-  var HEIGHT = 800;
-  var EDGES = {LEFT: 125, RIGHT: 1100, TOP: 50, BOTTOM: 500};
+  /*CONSTANTS*/
+  var WIDTH = 900;
+  var DATA_BOX_WIDTH = 300;
+  var HEIGHT = 700;
+  var EDGES = {LEFT: 125, RIGHT: 800, TOP: 50, BOTTOM: 500};
   var AXIS_LABEL_LEFT = 30;
   var AXIS_LABEL_BOTTOM = 540;
-  var BAR_HEIGHT = 14;
+  var BAR_SIZE = 14;
+  var YEAR_LABEL_POSITION = 650;
+  var sliderMargin = {top: 50, right: 50, bottom: 50, left: 50},
+    sliderWidth = WIDTH - sliderMargin.left - sliderMargin.right,
+    sliderHeight = HEIGHT - sliderMargin.top - sliderMargin.bottom,
+    sliderSize = 30;
 
-  var largeGraph = d3.select("#LargeGraph").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
-  //var legend = largeGraph.append("rect").attr("width", 300).attr("height", 200);
-
-  var xScale, yScale, xAxis, yAxis;
+  /*GLOBAL VARIABLES*/
+  var currentGenre, currentStartYear, currentEndYear;
+  var xScale, yScale, xAxis, yAxis, xAxisLabel;
   var bars;
   var genreTotals = {};
+  var brush, brushg, currentYearsText;
+
+  /*SETUP*/
+  var largeGraph = d3.select("#LargeGraph").append("svg").attr("width", WIDTH).attr("height", HEIGHT);
+  var dataBox = d3.select("#DataBox")
+     .style("width", DATA_BOX_WIDTH + "px")
+     .style("height", HEIGHT + "px");
+  var dataTitle = dataBox.append("h3")
+      .attr("id", "dataBox_title")
+      .text("Click on a data bar");
+  var dataList = dataBox.append("ul");
+
   genreReset();
   //ensure that Unknown is at the end
   var genres = Object.keys(genreTotals);
   var unknownIndex = genres.indexOf("Unknown");
   genres.splice(unknownIndex, 1);
   genres.push("Unknown");
+
+
+  var data;
+  d3.csv("genresOfAcademyAwards.csv", function (academyData) {
+    data = academyData;
+
+    //create bars and y-axis
+    yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
+    yAxis = d3.svg.axis().scale(yScale).orient("left");
+    largeGraph.selectAll("g.y.axis").call(yAxis);
+    bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
+      .attr("y", function(d){return yScale(d) - BAR_SIZE/2;})
+      .attr("height", BAR_SIZE)
+      .attr("x", EDGES.LEFT)
+      .on("click", function(d){
+        currentGenre = d;
+        updateDataBox();
+      });
+
+    //draw axis labels
+    xAxisLabel = largeGraph.append("text")
+      .attr("x", WIDTH / 2).attr("y", AXIS_LABEL_BOTTOM)
+      .attr("class", "axis_label")
+      .text("Number of Awards Won");
+    largeGraph.append("text")
+      .attr("transform", "rotate(-90, " + AXIS_LABEL_LEFT + ", " + EDGES.BOTTOM / 2 + ")" +
+      "translate(" + AXIS_LABEL_LEFT + ", " + EDGES.BOTTOM / 2 + ")")
+      .text("Genre").attr("class", "axis_label");
+    currentYearsText = largeGraph.append("text")
+      .attr("x", WIDTH / 2).attr("y", YEAR_LABEL_POSITION)
+      .attr("id", "year_label");
+
+    //initially draw bars, assuming default range is the whole timeline
+    filterAwards(1934, 2010); 
+
+    //draw axes
+    largeGraph.append("g").attr("class", "x axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
+    largeGraph.append("g").attr("class", "axis").attr("transform", "translate(" + EDGES.LEFT + ", 0)").call(yAxis);
+
+    var x = d3.scale.linear()
+        .domain([1934, 2010])
+        .range([sliderMargin.left, sliderWidth]);
+    yearTicks = [1934, 1940];
+    while (yearTicks[yearTicks.length-1]<2010) {
+      yearTicks.push(yearTicks[yearTicks.length-1]+5);
+    }
+    var sliderAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(yearTicks).tickFormat(d3.format(".0f"));
+    largeGraph.append("g")
+        .attr("class", "slider axis")
+        .attr("transform", "translate(0," + sliderHeight + ")")
+        .call(sliderAxis);
+
+    //set up brushing
+    brush = d3.svg.brush()
+        .x(x)
+        .extent([1934, 2010])
+        .on("brushend", brushend);
+
+    brushg = largeGraph.append("g")
+        .attr("class", "brush")
+        .call(brush);
+
+    brushg.selectAll("rect")
+        .attr("height", sliderSize)
+        .attr("transform", "translate(0," + (sliderHeight - sliderSize) + ")");
+
+    //handles on brush
+    //http://bl.ocks.org/mbostock/4349545
+    var arc = d3.svg.arc()
+      .outerRadius(sliderSize / 2)
+      .startAngle(0)
+      .endAngle(function(d, i) { return i ? -Math.PI : Math.PI; });
+    brushg.selectAll(".resize").append("path")
+        .attr("transform", "translate(0," +  (sliderHeight - sliderSize/2) + ")")
+        .attr("d", arc);
+  });
 
   function genreReset() {
     genreTotals = { "Action" : 0,
@@ -133,29 +269,7 @@ text {
                     "Unknown" : 0};
   }
 
-  var brush, brushg;
-  var sliderMargin = {top: 50, right: 50, bottom: 50, left: 50},
-    sliderWidth = WIDTH - sliderMargin.left - sliderMargin.right,
-    sliderHeight = HEIGHT - sliderMargin.top - sliderMargin.bottom;
-
-
-  function brushmove() {
-    console.log("brushmove called");
-
-    var extent = brush.extent();
-    var diff = extent[1] - extent[0];
-
-    //force span of at least 1 year
-    if(diff < 1) {
-      extent[1] = extent[0] + 1;
-    }
-
-    brush.extent(extent)(d3.select(this));
-  }
-
   function brushend() {
-    console.log("brushend called");
-
     var extent = brush.extent();
     var diff = extent[1] - extent[0];
 
@@ -174,6 +288,8 @@ text {
   }
 
   function filterAwards (yearStart, yearEnd) {
+    currentStartYear = yearStart;
+    currentEndYear = yearEnd;
     genreReset()
     data.forEach(function(d) {
       if (d.Year >= yearStart && d.Year <= yearEnd) {
@@ -185,7 +301,7 @@ text {
       }
     });
 
-    //get max and set x and y scales
+    //get max and set x scale
     var maxData = 0;
     for (var genre in genreTotals) {
       if (genreTotals.hasOwnProperty(genre) && genreTotals[genre] > maxData) {
@@ -198,67 +314,30 @@ text {
     xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
     largeGraph.selectAll("g.x.axis").call(xAxis);
 
+    //update label
+    currentYearsText.text(currentStartYear + " – " + currentEndYear);
+
     //update data bars
     bars.attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);});
   }
 
+  function updateDataBox() {
+    dataTitle.text(currentGenre + " (" + currentStartYear + " – " + currentEndYear + ")");
+    var genreOrEmpty = (currentGenre==="Unknown" ? "" : currentGenre);
 
-  var data;
+    dataList.html("");
+    var dataSet = {};
+    data.forEach(function(d) {
+      if (d.Genre === genreOrEmpty && d.Year >= currentStartYear && d.Year <= currentEndYear) {
+        dataSet[d.Nominee] = true;
+      }
+    });
 
-  d3.csv("genresOfAcademyAwards.csv", function (academyData) {
-    data = academyData;
+    for(d in dataSet) {
+      dataList.append("li").text(d);
+    }
+  }
 
-    //create bars and y-axis
-    yScale = d3.scale.ordinal().domain(Object.keys(genreTotals)).rangeRoundPoints([EDGES.TOP, EDGES.BOTTOM]);
-    yAxis = d3.svg.axis().scale(yScale).orient("left");
-    largeGraph.selectAll("g.y.axis").call(yAxis);
-    bars = largeGraph.selectAll("rect").data(Object.keys(genreTotals)).enter().append("rect")
-      .attr("y", function(d){return yScale(d) - BAR_HEIGHT/2;})
-      .attr("height", BAR_HEIGHT)
-      .attr("x", EDGES.LEFT);
-
-    //initially draw bars, assuming default range is the whole timeline
-    filterAwards(1934, 2010); 
-
-    //draw axes
-    largeGraph.append("g").attr("class", "x axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
-    largeGraph.append("text").attr("x", WIDTH / 2).attr("y", AXIS_LABEL_BOTTOM).text("Number of Awards Won");
-    largeGraph.append("g").attr("class", "axis").attr("transform", "translate(" + EDGES.LEFT + ", 0)").call(yAxis);
-    largeGraph.append("text").attr("transform", "rotate(-90, " + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")" +
-      "translate(" + AXIS_LABEL_LEFT + ", " + HEIGHT / 2 + ")").text("Genre");
-
-    var x = d3.scale.linear()
-        .domain([1934, 2010])
-        .range([0, sliderWidth]);
-
-        yearTicks = [1934, 1940]
-        while (yearTicks[yearTicks.length-1]<2010) {
-          yearTicks.push(yearTicks[yearTicks.length-1]+5);
-        }
-
-    var sliderAxis = d3.svg.axis().scale(x).orient("bottom").tickValues(yearTicks).tickFormat(d3.format(".0f"))
-
-    brush = d3.svg.brush()
-        .x(x)
-        .extent([1934, 2010])
-        .on("brush", brushmove)
-        .on("brushend", brushend);
-
-    largeGraph.append("g")
-        .attr("class", "slider axis")
-        .attr("transform", "translate(" + sliderMargin.left + "," + sliderHeight + ")")
-        .call(sliderAxis);
-
-    brushg = largeGraph.append("g")
-        .attr("class", "brush")
-        .call(brush);
-
-    brushg.selectAll("rect")
-        .attr("height", 100)
-        .attr("transform", "translate(" + sliderMargin.left + "," + 600 + ")");
-
-
-  });
 </script>
 
 </body>
