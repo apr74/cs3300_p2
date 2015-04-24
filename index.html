@@ -329,13 +329,13 @@
 
     //draw axes
     xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickFormat(d3.format(""));
-    largeGraph.selectAll("g.x.axis").call(xAxis);
+    largeGraph.selectAll("g.x.axis").transition().call(xAxis);
 
     //update label
     currentYearsText.text(currentStartYear + " – " + currentEndYear);
 
     //update data bars
-    bars.attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);});
+    bars.transition().attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);});
   }
 
   function updateDataBox() {
