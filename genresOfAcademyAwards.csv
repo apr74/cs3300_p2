@@ -1,11 +1,11 @@
-Year,Category,Nominee,Won?,Genre
+Year,Category,Nominee,Won,Genre
 1935,Sound,"$1,000 a Minute",NO,
-1986,Foreign Language Film,'38',NO,
-1986,Writing,'Crocodile' Dundee,NO,
-1986,Actor -- Leading Role,'Round Midnight,NO,Drama
-1986,Actor -- Leading Role,'Round Midnight,NO,Music
-1986,Music (Scoring),'Round Midnight,YES,Drama
-1986,Music (Scoring),'Round Midnight,YES,Music
+1986,Foreign Language Film,38',NO,
+1986,Writing,Crocodile' Dundee,NO,
+1986,Actor -- Leading Role,Round Midnight,NO,Drama
+1986,Actor -- Leading Role,Round Midnight,NO,Music
+1986,Music (Scoring),Round Midnight,YES,Drama
+1986,Music (Scoring),Round Midnight,YES,Music
 2003,Short Film (Live Action),(A) Torzija [(A) Torsion],NO,
 1979,Music (Scoring),10,NO,Comedy
 1979,Music (Scoring),10,NO,Romance
@@ -4076,7 +4076,7 @@ Year,Category,Nominee,Won?,Genre
 1944,Special Effects (archaic category),Days of Glory,NO,Drama
 1944,Special Effects (archaic category),Days of Glory,NO,Romance
 1944,Special Effects (archaic category),Days of Glory,NO,War
-2006,Foreign Language Film,Days of Glory (Indigènes),NO,
+2006,Foreign Language Film,Days of Glory (IndigÔæènes),NO,
 1978,Cinematography,Days of Heaven,YES,Drama
 1978,Cinematography,Days of Heaven,YES,Romance
 1978,Costume Design,Days of Heaven,NO,Drama
@@ -7660,7 +7660,7 @@ Year,Category,Nominee,Won?,Genre
 1959,Special Effects (archaic category),Journey to the Center of the Earth,NO,Romance
 1959,Special Effects (archaic category),Journey to the Center of the Earth,NO,Sci-Fi
 1973,Documentary (Feature),Journey to the Outer Limits,NO,Documentary
-2005,Foreign Language Film,Joyeux Noïl,NO,
+2005,Foreign Language Film,Joyeux NoÔæïl,NO,
 1990,Foreign Language Film,Ju Dou,NO,Drama
 1939,Actor -- Supporting Role,Juarez,NO,Biography
 1939,Actor -- Supporting Role,Juarez,NO,Drama
@@ -8753,8 +8753,8 @@ Year,Category,Nominee,Won?,Genre
 1992,Costume Design,Malcolm X,NO,History
 1972,Documentary (Feature),Malcolm X,NO,Biography
 1972,Documentary (Feature),Malcolm X,NO,Documentary
-2000,Cinematography,Malèna,NO,
-2000,Music (Scoring),Malèna,NO,
+2000,Cinematography,MalÔæèna,NO,
+2000,Music (Scoring),MalÔæèna,NO,
 1979,Foreign Language Film,Mama Turns a Hundred,NO,
 1952,Documentary (Short Subject),Man Alive!,NO,Animation
 1952,Documentary (Short Subject),Man Alive!,NO,Documentary
@@ -9920,7 +9920,7 @@ Year,Category,Nominee,Won?,Genre
 2003,Writing,Mystic River,NO,Drama
 2003,Writing,Mystic River,NO,Mystery
 2003,Writing,Mystic River,NO,Thriller
-2007,Short Film (Animated),Même les Pigeons Vont au Paradis (Even Pigeons Go to Heaven),NO,
+2007,Short Film (Animated),MÔæême les Pigeons Vont au Paradis (Even Pigeons Go to Heaven),NO,
 2010,Short Film (Live Action),Na Wewe,NO,Comedy
 2010,Short Film (Live Action),Na Wewe,NO,Short
 2010,Short Film (Live Action),Na Wewe,NO,War
@@ -20456,7 +20456,7 @@ Year,Category,Nominee,Won?,Genre
 1994,Cinematography,Wyatt Earp,NO,Biography
 1994,Cinematography,Wyatt Earp,NO,Romance
 1994,Cinematography,Wyatt Earp,NO,Western
-2002,Writing,Y Tu Mamˆ Tambi_n,NO,
+2002,Writing,Y Tu MamÔøΩ Tambi_n,NO,
 1989,Documentary (Short Subject),Yad Vashem: Preserving the Past to Ensure the Future,NO,Documentary
 1989,Documentary (Short Subject),Yad Vashem: Preserving the Past to Ensure the Future,NO,Short
 1942,Actor -- Leading Role,Yankee Doodle Dandy,YES,Biography
@@ -20628,5 +20628,5 @@ Year,Category,Nominee,Won?,Genre
 1958,Special Effects (archaic category),tom thumb,YES,Family
 1958,Special Effects (archaic category),tom thumb,YES,Fantasy
 1958,Special Effects (archaic category),tom thumb,YES,Musical
-1969,Foreign Language Film,Ådalen '31,NO,
-2006,Short Film (Live Action),€ramos Pocos (One Too Many),NO,
+1969,Foreign Language Film,ÔæÅdalen '31,NO,
+2006,Short Film (Live Action),ÔøΩramos Pocos (One Too Many),NO,

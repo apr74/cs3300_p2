@@ -131,6 +131,15 @@
     border: 2px solid #354458;
     background-color: #354458;
   }
+
+  label {
+    position: absolute;
+    top: 100px;
+    right: 1950px;
+font-family: 'EB Garamond', serif;
+    color: #354458;
+  }
+
 </style>
 
 <body>
@@ -143,6 +152,8 @@
   <div id="DataBox"></div>
 </div>
 </div>
+
+<label><input type="checkbox" onclick="checkboxClicked()">Winners Only</label>
 
 <script>
   /*CONSTANTS*/
@@ -183,6 +194,14 @@
   genres.splice(unknownIndex, 1);
   genres.push("Unknown");
 
+  var winnersOnly = false;
+
+  var checkboxClicked = function () {
+    console.log("checkbox clicked")
+    winnersOnly = !winnersOnly;
+    filterAwards(currentStartYear, currentEndYear);
+  }
+
 
   var data;
   d3.csv("genresOfAcademyAwards.csv", function (academyData) {
@@ -205,7 +224,7 @@
     xAxisLabel = largeGraph.append("text")
       .attr("x", WIDTH / 2).attr("y", AXIS_LABEL_BOTTOM)
       .attr("class", "axis_label")
-      .text("Number of Awards Won");
+      .text("Number of Nominations");
     largeGraph.append("text")
       .attr("transform", "rotate(-90, " + AXIS_LABEL_LEFT + ", " + EDGES.BOTTOM / 2 + ")" +
       "translate(" + AXIS_LABEL_LEFT + ", " + EDGES.BOTTOM / 2 + ")")
@@ -215,14 +234,14 @@
       .attr("id", "year_label");
 
     //initially draw bars, assuming default range is the whole timeline
-    filterAwards(1934, 2010); 
+    filterAwards(1934, 2011); 
 
     //draw axes
     largeGraph.append("g").attr("class", "x axis").attr("transform", "translate(0," + (EDGES.BOTTOM) + ")").call(xAxis);
     largeGraph.append("g").attr("class", "axis").attr("transform", "translate(" + EDGES.LEFT + ", 0)").call(yAxis);
 
     var x = d3.scale.linear()
-        .domain([1934, 2010])
+        .domain([1934, 2011])
         .range([sliderMargin.left, sliderWidth]);
     yearTicks = [1934, 1940];
     while (yearTicks[yearTicks.length-1]<2010) {
@@ -237,7 +256,7 @@
     //set up brushing
     brush = d3.svg.brush()
         .x(x)
-        .extent([1934, 2010])
+        .extent([1934, 2011])
         .on("brushend", brushend);
 
     brushg = largeGraph.append("g")
@@ -298,23 +317,32 @@
     if(diff < 1) {
       extent[1] = extent[0] + 1;
     }
+    if(extent[0] == 2011) {
+      extent[0] = 2010;
+      extent[1] = 2011;
+    }
+
 
     filterAwards(extent[0], extent[1]);
 
     brush.extent(extent)(d3.select(this));
   }
 
-  function filterAwards (yearStart, yearEnd) {
+  function filterAwards (yearStart, upperBound) {
     currentStartYear = yearStart;
-    currentEndYear = yearEnd;
-    genreReset()
+    currentEndYear = upperBound;
+    genreReset();
     data.forEach(function(d) {
-      if (d.Year >= yearStart && d.Year <= yearEnd) {
-        if (d.Genre in genreTotals) {
-          genreTotals[d.Genre]++;
-        } else {
-          genreTotals["Unknown"]++;
+      if (d.Year >= yearStart && d.Year < upperBound) {
+
+        if ((winnersOnly && d.Won == "YES") || (!winnersOnly)) {
+          if (d.Genre in genreTotals) {
+            genreTotals[d.Genre]++;
+          } else {
+            genreTotals["Unknown"]++;
+          }
         }
+
       }
     });
 
@@ -332,20 +360,20 @@
     largeGraph.selectAll("g.x.axis").transition().call(xAxis);
 
     //update label
-    currentYearsText.text(currentStartYear + " – " + currentEndYear);
+    currentYearsText.text(currentStartYear + " – " + (currentEndYear - 1));
 
     //update data bars
     bars.transition().attr("width", function(d){return xScale(genreTotals[d]) - xScale(0);});
   }
 
   function updateDataBox() {
-    dataTitle.text(currentGenre + " (" + currentStartYear + " – " + currentEndYear + ")");
-    var genreOrEmpty = (currentGenre==="Unknown" ? "" : currentGenre);
+    dataTitle.text(currentGenre + " (" + currentStartYear + " – " + (currentEndYear-1) + ")");
+    var genreOrEmpty = (currentGenre === "Unknown" ? "" : currentGenre);
 
     dataList.html("");
     var dataSet = {};
     data.forEach(function(d) {
-      if (d.Genre === genreOrEmpty && d.Year >= currentStartYear && d.Year <= currentEndYear) {
+      if (d.Genre === genreOrEmpty && d.Year >= currentStartYear && d.Year < currentEndYear) {
         dataSet[d.Nominee] = true;
       }
     });
