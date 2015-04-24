@@ -135,15 +135,15 @@
   label {
     position: absolute;
     top: 100px;
-    right: 1950px;
-font-family: 'EB Garamond', serif;
+    left: 50px;
+    font-family: 'EB Garamond', serif;
     color: #354458;
   }
 
 </style>
 
 <body>
-<h3>Academy Award Winners by Genre</h3>
+<h3>Academy Award Nominees by Genre</h3>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 
 <div id="wrapper">
@@ -197,8 +197,12 @@ font-family: 'EB Garamond', serif;
   var winnersOnly = false;
 
   var checkboxClicked = function () {
-    console.log("checkbox clicked")
     winnersOnly = !winnersOnly;
+    if(winnersOnly) {
+      xAxisLabel.text("Number of Winners");
+    } else {
+      xAxisLabel.text("Number of Nominations");
+    }
     filterAwards(currentStartYear, currentEndYear);
   }
 
@@ -374,7 +378,9 @@ font-family: 'EB Garamond', serif;
     var dataSet = {};
     data.forEach(function(d) {
       if (d.Genre === genreOrEmpty && d.Year >= currentStartYear && d.Year < currentEndYear) {
-        dataSet[d.Nominee] = true;
+        if ((winnersOnly && d.Won == "YES") || (!winnersOnly)) {
+          dataSet[d.Nominee] = true;
+        }
       }
     });
 
